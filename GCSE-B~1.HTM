@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GCSE Biology Revision — Questions & Answers</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#ffffff; --ink:#1a2233; --soft:#54617a;
+    --line:#d8e0ec; --brand:#1e6b52; --brand2:#2a8f6d; --brandsoft:#e6f3ee;
+    --accent:#245e9c; --good:#1e7d46; --goodbg:#e5f5ea; --bad:#b23b3b; --badbg:#fbe9e9;
+    --amber:#b7791f; --focus:#1256a0; --shadow:0 2px 10px rgba(20,40,70,.07);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.6; font-size:18px;
+  }
+  header.top{
+    background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff;
+    padding:26px 20px 22px;
+  }
+  header.top .wrap{max-width:900px;margin:0 auto}
+  header.top h1{margin:0 0 4px;font-size:1.7rem;letter-spacing:.2px}
+  header.top p{margin:0;opacity:.95;font-size:1.02rem}
+  .container{max-width:900px;margin:0 auto;padding:20px 16px 80px}
+
+  /* Mode tabs */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+  .tab{
+    flex:1 1 auto;min-width:150px;text-align:center;cursor:pointer;
+    padding:14px 12px;border-radius:12px;border:2px solid var(--line);
+    background:var(--card);font-weight:700;font-size:1.02rem;color:var(--soft);
+    transition:.15s;
+  }
+  .tab:hover{border-color:var(--brand2)}
+  .tab[aria-selected="true"]{background:var(--brandsoft);border-color:var(--brand);color:var(--brand)}
+  .hint{color:var(--soft);font-size:.98rem;margin:6px 2px 0}
+
+  h2.section{font-size:1.3rem;margin:26px 0 10px}
+
+  /* Topic grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
+  .topic-card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 16px 14px;
+    box-shadow:var(--shadow);cursor:pointer;transition:.15s;text-align:left;font:inherit;color:inherit;
+  }
+  .topic-card:hover{transform:translateY(-2px);border-color:var(--brand2)}
+  .topic-card .num{display:inline-block;background:var(--brand);color:#fff;font-weight:700;
+    border-radius:8px;padding:2px 10px;font-size:.9rem;margin-bottom:8px}
+  .topic-card h3{margin:0 0 4px;font-size:1.12rem}
+  .topic-card .meta{color:var(--soft);font-size:.92rem}
+
+  .btn{
+    display:inline-block;cursor:pointer;border:none;border-radius:10px;padding:12px 18px;
+    font:inherit;font-weight:700;font-size:1rem;transition:.15s;
+  }
+  .btn-primary{background:var(--brand);color:#fff}
+  .btn-primary:hover{background:var(--brand2)}
+  .btn-ghost{background:var(--card);color:var(--brand);border:2px solid var(--brand)}
+  .btn-ghost:hover{background:var(--brandsoft)}
+  .btn-wide{width:100%;padding:16px;font-size:1.08rem}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .spacer{flex:1}
+
+  .backlink{background:none;border:none;color:var(--accent);font:inherit;font-weight:700;
+    cursor:pointer;padding:6px 0;font-size:1rem}
+  .backlink:hover{text-decoration:underline}
+
+  /* Read-through list */
+  .qitem{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:10px 0;
+    box-shadow:var(--shadow);overflow:hidden}
+  .qitem summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:700;font-size:1.06rem;
+    display:flex;gap:12px;align-items:flex-start}
+  .qitem summary::-webkit-details-marker{display:none}
+  .qitem summary .qn{color:var(--brand);flex:0 0 auto}
+  .qitem summary .arrow{margin-left:auto;color:var(--soft);transition:.2s;flex:0 0 auto}
+  .qitem[open] summary .arrow{transform:rotate(180deg)}
+  .qitem .ans{padding:0 18px 18px 18px;border-top:1px dashed var(--line);margin-top:2px;
+    color:var(--ink);font-size:1.02rem}
+  .qitem .ans p{margin:12px 0 0}
+
+  /* Quiz */
+  .quiz-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px;
+    box-shadow:var(--shadow)}
+  .progress-wrap{background:#e7edf5;border-radius:999px;height:12px;overflow:hidden;margin:4px 0 2px}
+  .progress-bar{height:100%;background:var(--brand2);width:0;transition:width .3s}
+  .counter{color:var(--soft);font-size:.95rem;display:flex;justify-content:space-between;margin-bottom:14px}
+  .qtext{font-size:1.28rem;font-weight:700;margin:6px 0 4px}
+  .qtopic{color:var(--accent);font-weight:700;font-size:.9rem;text-transform:uppercase;letter-spacing:.5px}
+  .answer-box{background:var(--brandsoft);border:1px solid #bfe2d5;border-radius:12px;
+    padding:16px;margin:16px 0;font-size:1.06rem;display:none}
+  .answer-box.show{display:block;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .answer-box .lbl{font-weight:700;color:var(--brand);display:block;margin-bottom:4px}
+  .mark-row{display:none;gap:10px;margin-top:8px}
+  .mark-row.show{display:flex}
+  .btn-good{background:var(--goodbg);color:var(--good);border:2px solid var(--good);flex:1}
+  .btn-good:hover{background:#d6efdd}
+  .btn-bad{background:var(--badbg);color:var(--bad);border:2px solid var(--bad);flex:1}
+  .btn-bad:hover{background:#f6dede}
+
+  .scorepill{display:inline-flex;gap:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:999px;padding:8px 18px;font-weight:700;box-shadow:var(--shadow)}
+  .scorepill .g{color:var(--good)} .scorepill .b{color:var(--bad)}
+
+  /* Results */
+  .result{text-align:center;background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:30px 20px;box-shadow:var(--shadow)}
+  .result .big{font-size:3rem;font-weight:800;color:var(--brand);margin:6px 0}
+  .result .msg{font-size:1.15rem;margin:6px 0 20px}
+  .review-h{margin:26px 0 8px;font-size:1.15rem}
+
+  .hidden{display:none !important}
+  footer{max-width:900px;margin:0 auto;padding:0 16px 40px;color:var(--soft);font-size:.9rem;text-align:center}
+  a{color:var(--accent)}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  select{font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:#fff}
+  :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  @media (max-width:520px){
+    body{font-size:17px}
+    header.top h1{font-size:1.4rem}
+    .qtext{font-size:1.15rem}
+  }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <h1>🧬 GCSE Biology — Revision Q&amp;A</h1>
+    <p>Every topic, one question at a time. Take your time — there's no rush.</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="tabs" role="tablist" aria-label="Choose how to revise">
+    <div class="tab" role="tab" aria-selected="true" tabindex="0" data-mode="home">🏠 Home</div>
+    <div class="tab" role="tab" aria-selected="false" tabindex="0" data-mode="read">📖 Read Q&amp;A</div>
+    <div class="tab" role="tab" aria-selected="false" tabindex="0" data-mode="quiz">✍️ Self-test quiz</div>
+  </div>
+  <p class="hint" id="modeHint">Pick a way to revise above, then choose a topic below.</p>
+
+  <!-- HOME -->
+  <section id="view-home">
+    <h2 class="section">The 7 topics of GCSE Biology</h2>
+    <p class="hint">Tap any topic to read its questions and answers, or scroll down to start a mixed self-test.</p>
+    <div class="grid" id="homeGrid"></div>
+    <div style="margin-top:22px" class="row">
+      <button class="btn btn-primary btn-wide" id="startAllQuiz">✍️ Start a self-test on ALL topics</button>
+    </div>
+  </section>
+
+  <!-- READ MODE -->
+  <section id="view-read" class="hidden">
+    <button class="backlink" data-go="home">← Back to all topics</button>
+    <div id="readTopicPicker"></div>
+    <div id="readContent"></div>
+  </section>
+
+  <!-- QUIZ MODE -->
+  <section id="view-quiz" class="hidden">
+    <button class="backlink" data-go="home">← Back to all topics</button>
+    <div id="quizSetup">
+      <h2 class="section">Self-test quiz</h2>
+      <p class="hint">Read the question, think of your answer, then reveal the model answer and mark yourself honestly. Your best scores are saved on this computer.</p>
+      <div class="tools">
+        <label for="quizTopic"><strong>Topic:</strong></label>
+        <select id="quizTopic"></select>
+        <button class="btn btn-primary" id="beginQuiz">Begin →</button>
+      </div>
+    </div>
+
+    <div id="quizPlay" class="hidden">
+      <div class="counter">
+        <span id="qCounter">Question 1 of 10</span>
+        <span class="scorepill"><span class="g" id="scoreG">✓ 0</span><span class="b" id="scoreB">✗ 0</span></span>
+      </div>
+      <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+      <div class="quiz-card" style="margin-top:14px">
+        <span class="qtopic" id="qTopicLabel"></span>
+        <div class="qtext" id="qText"></div>
+        <div class="answer-box" id="answerBox"><span class="lbl">Model answer</span><span id="aText"></span></div>
+        <button class="btn btn-primary btn-wide" id="revealBtn">Show answer</button>
+        <div class="mark-row" id="markRow">
+          <button class="btn btn-good" id="gotRight">✓ I got it right</button>
+          <button class="btn btn-bad" id="gotWrong">✗ I got it wrong</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="quizResult" class="hidden"></div>
+  </section>
+
+</div>
+
+<footer>
+  Built for AQA GCSE Biology revision · Covers Separate/Triple Biology (includes all Combined Science content).<br>
+  Questions written to match the official AQA specification and your textbooks. Always double-check tricky facts against your book.
+</footer>
+
+<script>
+/* ============================================================
+   QUESTION BANK — AQA GCSE Biology (core essentials)
+   ============================================================ */
+const TOPICS = [
+{
+  id:1, title:"Cell biology",
+  blurb:"Cells, microscopy, transport and cell division",
+  questions:[
+    {q:"What are the two main types of cell?", a:"Eukaryotic cells and prokaryotic cells. Eukaryotic cells (animals, plants, fungi) have a nucleus enclosing their DNA; prokaryotic cells (bacteria) do not."},
+    {q:"Name the parts found in an animal cell and give one job of each.", a:"Nucleus (controls the cell and holds DNA), cytoplasm (where reactions happen), cell membrane (controls what enters/leaves), mitochondria (aerobic respiration/energy release), and ribosomes (protein synthesis)."},
+    {q:"What extra parts does a plant cell have that an animal cell does not?", a:"A cell wall (made of cellulose, for support), a permanent vacuole (holds cell sap and keeps the cell firm), and chloroplasts (contain chlorophyll for photosynthesis)."},
+    {q:"Describe the structure of a bacterial (prokaryotic) cell.", a:"Cytoplasm, a cell membrane and a cell wall, with a single loop of DNA floating free (no nucleus). It may also have small rings of DNA called plasmids."},
+    {q:"How is a sperm cell adapted to its function?", a:"It has a tail (flagellum) to swim, many mitochondria to release energy for swimming, and enzymes in the head (acrosome) to digest into the egg."},
+    {q:"How is a root hair cell adapted for absorbing water and minerals?", a:"It has a long thin extension (large surface area), a thin wall, and many mitochondria to provide energy for active transport of mineral ions."},
+    {q:"What is the equation for magnification?", a:"Magnification = size of image ÷ size of real object. (Rearrange to find image size or actual size as needed.)"},
+    {q:"Why can an electron microscope show more detail than a light microscope?", a:"It has much higher magnification and, crucially, much higher resolution (resolving power), so it can show smaller structures such as ribosomes and internal detail of organelles."},
+    {q:"Put these units in order from largest to smallest: nanometre, millimetre, micrometre.", a:"Millimetre (mm) → micrometre (µm) → nanometre (nm). There are 1000 µm in 1 mm, and 1000 nm in 1 µm."},
+    {q:"What is diffusion?", a:"The net movement of particles from a region of higher concentration to a region of lower concentration (down a concentration gradient). It is a passive process (no energy needed)."},
+    {q:"Give three factors that increase the rate of diffusion.", a:"A steeper concentration gradient, a higher temperature, and a larger surface area of the membrane."},
+    {q:"What is osmosis?", a:"The diffusion of water across a partially permeable membrane, from a dilute solution (high water concentration) to a more concentrated solution (low water concentration)."},
+    {q:"What is active transport and why is it important?", a:"The movement of substances against a concentration gradient (from low to high concentration) using energy from respiration. It lets root hairs absorb mineral ions from dilute soil and the gut absorb glucose."},
+    {q:"Why do small organisms not need a transport system but large ones do?", a:"Small organisms have a large surface-area-to-volume ratio, so diffusion across their surface is fast enough. Large organisms have a small surface-area-to-volume ratio, so they need transport systems and exchange surfaces."},
+    {q:"What is a chromosome?", a:"A long molecule of DNA carrying many genes. Body cell nuclei contain 23 pairs of chromosomes in humans."},
+    {q:"Describe what happens in mitosis and why it is used.", a:"One cell divides to produce two genetically identical daughter cells. First the DNA replicates, then chromosomes are pulled to each end and the cell divides. It is used for growth, repair and replacing cells (and asexual reproduction)."},
+    {q:"What is a stem cell?", a:"An undifferentiated cell that can divide to produce more cells of the same type or differentiate into specialised cells."},
+    {q:"Where are stem cells found, and give a use of them.", a:"In human embryos (embryonic stem cells can become any cell type), in adult bone marrow (can form blood cells), and in plant meristems. They could be used to treat conditions such as diabetes or paralysis (therapeutic use)."},
+    {q:"Give one advantage and one risk/objection to using embryonic stem cells.", a:"Advantage: they may cure diseases by replacing damaged cells. Risk/objection: the embryo is destroyed (ethical concerns), and cultured cells could become contaminated with a virus."}
+  ]
+},
+{
+  id:2, title:"Organisation",
+  blurb:"Digestion, enzymes, the heart, blood and plants",
+  questions:[
+    {q:"Put these in order of size: organ, tissue, cell, organ system.", a:"Cell → tissue → organ → organ system (→ organism). A tissue is a group of similar cells; an organ is several tissues working together; an organ system is several organs working together."},
+    {q:"What is an enzyme?", a:"A biological catalyst — a protein that speeds up a reaction without being used up. Each enzyme has a specific shape."},
+    {q:"Explain the 'lock and key' model of enzyme action.", a:"The substrate fits into the enzyme's active site like a key in a lock. The shapes are complementary, so each enzyme only works on one type of substrate."},
+    {q:"What happens to an enzyme at high temperature or the wrong pH?", a:"The active site changes shape (the enzyme denatures), so the substrate no longer fits and the reaction stops. Each enzyme has an optimum temperature and pH."},
+    {q:"Name the three main digestive enzymes and what they break down.", a:"Amylase (a carbohydrase) breaks starch into sugars; protease breaks proteins into amino acids; lipase breaks lipids (fats) into fatty acids and glycerol."},
+    {q:"What is the role of bile in digestion?", a:"Bile is made in the liver, stored in the gall bladder and released into the small intestine. It neutralises stomach acid (it is alkaline) and emulsifies fats into small droplets, increasing surface area for lipase."},
+    {q:"State the food test and positive result for starch, and for sugar.", a:"Starch: add iodine solution — it turns from orange-brown to blue-black. Reducing sugar: add Benedict's solution and heat — it turns from blue to green/yellow/brick-red."},
+    {q:"State the food test for protein and for lipids (fat).", a:"Protein: add Biuret solution — it turns from blue to purple/lilac. Lipids: the emulsion test — add ethanol then water and a cloudy white emulsion forms."},
+    {q:"Name the three types of blood vessel and one feature of each.", a:"Arteries carry blood away from the heart at high pressure (thick, elastic walls). Veins return blood to the heart at low pressure (thinner walls, valves). Capillaries are one cell thick for exchange of substances."},
+    {q:"Describe the path of blood through the heart (double circulation).", a:"Deoxygenated blood enters the right atrium, goes to the right ventricle, then to the lungs. Oxygenated blood returns to the left atrium, goes to the left ventricle, then out to the body via the aorta. Two circuits — hence 'double' circulation."},
+    {q:"What are the four components of blood and their jobs?", a:"Plasma (carries dissolved substances and cells), red blood cells (carry oxygen using haemoglobin), white blood cells (fight pathogens), and platelets (help the blood clot)."},
+    {q:"How are red blood cells adapted to carry oxygen?", a:"They are biconcave discs (large surface area), have no nucleus (more room for haemoglobin), and contain haemoglobin which binds oxygen."},
+    {q:"What is coronary heart disease and how can stents and statins help?", a:"Fatty deposits build up in the coronary arteries, narrowing them and reducing blood flow to the heart muscle. Stents hold the artery open; statins lower blood cholesterol to slow the build-up."},
+    {q:"What is the difference between a benign and a malignant tumour?", a:"A benign tumour grows in one place and does not spread. A malignant tumour is cancer — its cells spread in the blood and invade other tissues, forming secondary tumours."},
+    {q:"Give two lifestyle risk factors for non-communicable disease.", a:"Any two of: smoking, poor diet (high fat/sugar), lack of exercise, obesity, or excess alcohol. These raise the risk of diseases like heart disease, type 2 diabetes and some cancers."},
+    {q:"Name the plant tissue where most photosynthesis happens and say why.", a:"The palisade mesophyll (near the top of the leaf) — its cells are packed with chloroplasts and arranged to absorb the most light."},
+    {q:"What do xylem and phloem transport?", a:"Xylem carries water and dissolved minerals up from the roots (the transpiration stream). Phloem carries dissolved sugars from the leaves to the rest of the plant (translocation), in both directions."},
+    {q:"What is transpiration?", a:"The loss of water vapour from a plant, mainly through the stomata on the underside of leaves. It pulls water up through the plant from the roots."},
+    {q:"Name four factors that increase the rate of transpiration.", a:"Higher temperature, increased air movement (wind), lower humidity, and brighter light (which opens the stomata)."},
+    {q:"What is the job of guard cells and stomata?", a:"Stomata are pores that let carbon dioxide in and water vapour/oxygen out. Guard cells open and close the stomata to control gas exchange and water loss."}
+  ]
+},
+{
+  id:3, title:"Infection and response",
+  blurb:"Pathogens, disease, defences, vaccines and drugs",
+  questions:[
+    {q:"What is a pathogen? Name the four types.", a:"A microorganism that causes infectious (communicable) disease. The four types are bacteria, viruses, fungi and protists."},
+    {q:"How do bacteria and viruses make us feel ill?", a:"Bacteria reproduce rapidly and may produce toxins that damage tissues. Viruses reproduce inside body cells and then burst them, damaging the cells."},
+    {q:"Give three ways diseases can be spread and how to reduce spread.", a:"By air (droplets), water, or direct contact. Spread is reduced by good hygiene (washing hands), destroying vectors, isolating infected people, and vaccination."},
+    {q:"Name a viral disease, a bacterial disease, a fungal disease and a protist disease.", a:"Viral: measles, HIV or tobacco mosaic virus (TMV in plants). Bacterial: salmonella or gonorrhoea. Fungal: rose black spot. Protist: malaria."},
+    {q:"How is malaria spread and how can it be controlled?", a:"A protist causes malaria, spread by the bite of an infected mosquito (the vector). It is controlled by preventing mosquitoes breeding and using mosquito nets to avoid bites."},
+    {q:"How does gonorrhoea spread and how is it treated/controlled?", a:"It is a sexually transmitted bacterial disease spread by unprotected sexual contact. It is treated with antibiotics and controlled with condoms (though antibiotic-resistant strains now exist)."},
+    {q:"Give three ways the body stops pathogens getting in (non-specific defences).", a:"The skin acts as a barrier; the nose has hairs and mucus; the trachea and bronchi have cilia and mucus to trap and remove pathogens; and the stomach produces acid to kill them."},
+    {q:"Describe three ways white blood cells defend the body.", a:"Phagocytosis (engulfing and digesting pathogens), producing antibodies (which target specific pathogens), and producing antitoxins (which neutralise toxins)."},
+    {q:"How does vaccination work?", a:"A small amount of dead or inactive pathogen is introduced. White blood cells respond by making antibodies. If the real pathogen invades later, the body can produce the correct antibodies quickly and in large amounts, so you don't become ill."},
+    {q:"What is herd immunity?", a:"When a large proportion of the population is vaccinated, the spread of a pathogen is greatly reduced, so even unvaccinated people are less likely to catch the disease."},
+    {q:"What do antibiotics do, and what can't they do?", a:"Antibiotics (e.g. penicillin) kill bacteria inside the body and have greatly reduced deaths from bacterial disease. They cannot kill viruses."},
+    {q:"What is antibiotic resistance and how does it arise?", a:"Some bacteria survive treatment because of chance mutations, then reproduce and pass on the resistance (natural selection). Overuse and not finishing courses of antibiotics speed this up (e.g. MRSA)."},
+    {q:"What is the difference between an antibiotic and a painkiller?", a:"An antibiotic kills the bacteria causing the disease. A painkiller only treats the symptoms (relieves pain) — it does not kill the pathogen."},
+    {q:"Where did these drugs originally come from: digitalis, aspirin, penicillin?", a:"Digitalis (a heart drug) from foxgloves; aspirin (a painkiller) from willow bark; penicillin (an antibiotic) from the Penicillium mould, discovered by Alexander Fleming."},
+    {q:"What three things are new drugs tested for before use?", a:"Toxicity (is it safe or harmful?), efficacy (does it work?), and dose (how much should be given?)."},
+    {q:"Outline the stages of testing a new drug.", a:"Preclinical testing on cells, tissues and live animals; then clinical trials on healthy volunteers (low doses to check safety) and then on patients to find the best dose and check it works. Trials often use a placebo and are double-blind."},
+    {q:"What is a double-blind trial?", a:"Neither the patients nor the doctors know who is receiving the real drug and who is receiving the placebo, until the results are analysed. This prevents bias."}
+  ]
+},
+{
+  id:4, title:"Bioenergetics",
+  blurb:"Photosynthesis and respiration",
+  questions:[
+    {q:"Write the word equation for photosynthesis.", a:"Carbon dioxide + water → (light energy) → glucose + oxygen. It happens in chloroplasts using energy transferred from light."},
+    {q:"Is photosynthesis endothermic or exothermic?", a:"Endothermic — it takes in (absorbs) energy from the environment, in the form of light."},
+    {q:"Name four factors that affect the rate of photosynthesis.", a:"Light intensity, carbon dioxide concentration, temperature, and the amount of chlorophyll."},
+    {q:"What is a limiting factor?", a:"A factor that is in short supply and so holds back (limits) the rate of a reaction. For photosynthesis, if you increase it the rate increases — until something else becomes limiting."},
+    {q:"How does temperature affect photosynthesis at high levels?", a:"Rate increases as temperature rises, but if it gets too hot the enzymes controlling photosynthesis denature, so the rate falls."},
+    {q:"Give four uses of the glucose made in photosynthesis.", a:"For respiration; converted to starch for storage; used to make cellulose (cell walls); used to make amino acids (proteins) with nitrate ions; and stored as lipids/oils in seeds."},
+    {q:"How can a grower increase the rate of photosynthesis in a greenhouse?", a:"By providing extra light, adding carbon dioxide, and keeping the temperature warm (and giving enough water and minerals). This increases crop yield but costs money."},
+    {q:"Write the word equation for aerobic respiration.", a:"Glucose + oxygen → carbon dioxide + water. Energy is released for the cell to use."},
+    {q:"Is respiration endothermic or exothermic, and where does it happen?", a:"Exothermic — it releases energy. Aerobic respiration mainly happens in the mitochondria."},
+    {q:"What is respiration used for in living organisms?", a:"To supply energy for muscle contraction (movement), for keeping warm (in mammals and birds), and for building larger molecules from smaller ones (e.g. proteins from amino acids)."},
+    {q:"Write the word equation for anaerobic respiration in muscle cells.", a:"Glucose → lactic acid. It releases much less energy than aerobic respiration because the glucose is not fully broken down."},
+    {q:"Write the equation for anaerobic respiration in yeast, and its industrial use.", a:"Glucose → ethanol + carbon dioxide. This is called fermentation and is used to make bread (the CO₂) and alcoholic drinks (the ethanol)."},
+    {q:"What happens to the body during vigorous exercise?", a:"Heart rate, breathing rate and breath volume increase to supply more oxygen and glucose and remove CO₂. If oxygen runs low, muscles respire anaerobically, producing lactic acid."},
+    {q:"What is oxygen debt?", a:"The extra oxygen the body needs after exercise to react with and remove the lactic acid that built up during anaerobic respiration."},
+    {q:"What is metabolism?", a:"The sum of all the chemical reactions in a cell or the body — including building large molecules (e.g. starch, proteins) and breaking them down (e.g. in respiration)."}
+  ]
+},
+{
+  id:5, title:"Homeostasis and response",
+  blurb:"Control systems, nerves, hormones and blood sugar",
+  questions:[
+    {q:"What is homeostasis?", a:"The regulation of the internal conditions of the body to keep them constant, in response to internal and external changes — e.g. controlling temperature, water and blood glucose. It keeps enzymes and cells working properly."},
+    {q:"What three parts make up a control system?", a:"Receptors (detect a change/stimulus), coordination centres (e.g. brain, spinal cord — which process information), and effectors (muscles or glands that bring about a response)."},
+    {q:"Name the parts of the nervous system and their roles.", a:"Receptors detect stimuli; sensory neurones carry impulses to the central nervous system (brain and spinal cord); the CNS coordinates a response; motor neurones carry impulses to effectors (muscles or glands)."},
+    {q:"Describe a reflex action and why it is useful.", a:"An automatic, rapid response that does not involve the conscious brain: stimulus → receptor → sensory neurone → relay neurone (spinal cord) → motor neurone → effector. It is fast and protects the body from harm."},
+    {q:"What is a synapse and how is a signal passed across it?", a:"A tiny gap between two neurones. The electrical impulse triggers the release of chemicals (neurotransmitters) that diffuse across the gap and start an impulse in the next neurone."},
+    {q:"Compare the nervous and endocrine (hormonal) systems.", a:"Nervous: fast, short-lived, precise, using electrical impulses along neurones. Hormonal: slower, longer-lasting, more general, using chemicals (hormones) carried in the blood."},
+    {q:"Which gland is the 'master gland' and why?", a:"The pituitary gland. It releases hormones that control other glands, telling them to release their own hormones."},
+    {q:"How is blood glucose controlled when it is too high?", a:"The pancreas detects the high blood glucose and releases insulin. Insulin makes cells take in glucose, and the liver stores excess glucose as glycogen, lowering blood glucose."},
+    {q:"What happens when blood glucose is too low?", a:"The pancreas releases glucagon, which makes the liver break down glycogen back into glucose and release it into the blood, raising blood glucose."},
+    {q:"What is the difference between Type 1 and Type 2 diabetes?", a:"Type 1: the pancreas produces little or no insulin — treated with insulin injections. Type 2: the body cells stop responding to insulin — linked to obesity, treated with diet, exercise and sometimes medication."},
+    {q:"Name the four hormones involved in the menstrual cycle.", a:"FSH (matures an egg in the ovary), oestrogen (repairs and thickens the uterus lining and triggers LH), LH (triggers ovulation — release of the egg), and progesterone (maintains the uterus lining)."},
+    {q:"How do hormonal and barrier methods of contraception work?", a:"Hormonal methods (pill, injection, implant) use oestrogen and/or progesterone to stop eggs maturing or being released. Barrier methods (condoms, diaphragms) stop sperm reaching the egg; other options include IUDs, spermicides, abstinence and sterilisation."},
+    {q:"Outline how IVF (in vitro fertilisation) helps with fertility.", a:"FSH and LH are given to stimulate egg maturation. Eggs are collected and fertilised by sperm in a lab. One or two developing embryos are then placed back into the woman's uterus."}
+  ]
+},
+{
+  id:6, title:"Inheritance, variation and evolution",
+  blurb:"Reproduction, DNA, genetics and natural selection",
+  questions:[
+    {q:"Compare sexual and asexual reproduction.", a:"Sexual reproduction involves two parents and the fusion of gametes (sex cells), giving variation. Asexual reproduction involves one parent, no gametes, and produces genetically identical clones."},
+    {q:"What is meiosis and where does it happen?", a:"Cell division that forms gametes (sex cells) in the reproductive organs. It produces four cells, each with half the number of chromosomes (a single set), and each genetically different."},
+    {q:"Define gene, chromosome and genome.", a:"A gene is a small section of DNA that codes for a protein. A chromosome is a long DNA molecule carrying many genes. The genome is the entire genetic material (all the DNA) of an organism."},
+    {q:"What do these terms mean: dominant, recessive, homozygous, heterozygous?", a:"Dominant allele: only one copy is needed to show the trait (capital letter). Recessive: two copies are needed (lower-case). Homozygous: two identical alleles. Heterozygous: two different alleles."},
+    {q:"What is the difference between genotype and phenotype?", a:"The genotype is the combination of alleles an organism has (e.g. Bb). The phenotype is the physical characteristic that results (e.g. brown eyes)."},
+    {q:"Cross two heterozygous parents (Bb × Bb). What ratio of offspring is expected?", a:"Offspring genotypes are BB, Bb, Bb, bb — a 3:1 ratio of dominant to recessive phenotype (a 1:2:1 genotype ratio)."},
+    {q:"Name an inherited disorder caused by a dominant allele and one caused by a recessive allele.", a:"Polydactyly (extra fingers or toes) is caused by a dominant allele. Cystic fibrosis (affects cell membranes) is caused by a recessive allele."},
+    {q:"How is sex determined in humans?", a:"By the sex chromosomes: females are XX and males are XY. Half the sperm carry X and half carry Y, so there is a 50:50 chance of each sex."},
+    {q:"What causes variation between organisms?", a:"Genes (inherited), the environment, or a combination of both. Genetic variation arises from mutations and the mixing of genes in sexual reproduction."},
+    {q:"What is a mutation and what can it do?", a:"A random change in the DNA. Most have no effect, some change the phenotype a little, and rarely one has a big effect. Mutations are the source of new alleles and variation."},
+    {q:"Describe evolution by natural selection.", a:"Individuals show variation. Those with characteristics best suited to the environment are more likely to survive and reproduce, passing on the beneficial alleles. Over many generations the species changes (evolves). This was proposed by Charles Darwin."},
+    {q:"How do bacteria become resistant to antibiotics (an example of evolution)?", a:"A chance mutation makes some bacteria resistant. When antibiotics are used, the non-resistant bacteria die but the resistant ones survive and reproduce, so the resistant type becomes common."},
+    {q:"What is selective breeding and give an example?", a:"Humans choose organisms with a desired characteristic and breed them together over many generations (e.g. cows with high milk yield, disease-resistant crops, gentle dogs). A risk is reduced variation and inbreeding problems."},
+    {q:"What is genetic engineering?", a:"Transferring a gene from one organism into another to give it a desired characteristic — e.g. crops (GM) made resistant to insects, or bacteria engineered to produce human insulin."},
+    {q:"Give the main evidence for evolution.", a:"Fossils (a record of organisms over millions of years) and the study of antibiotic-resistant bacteria (evolution seen quickly). Fossils form from hard parts, casts and impressions, or preservation where decay is prevented."},
+    {q:"What is extinction and name a cause.", a:"When there are no individuals of a species left alive. Causes include a changing environment/climate, new predators, new diseases, new competitors, or a single catastrophic event."},
+    {q:"How are living things classified (the Linnaean system) and what are the three domains?", a:"Linnaeus grouped organisms as kingdom, phylum, class, order, family, genus and species, with a two-part Latin name (binomial). Carl Woese later proposed three domains: Archaea, Bacteria and Eukaryota."}
+  ]
+},
+{
+  id:7, title:"Ecology",
+  blurb:"Ecosystems, cycles, biodiversity and human impact",
+  questions:[
+    {q:"Define: habitat, population, community, ecosystem.", a:"Habitat: where an organism lives. Population: all the individuals of one species in an area. Community: all the populations of different species in an area. Ecosystem: the community plus the non-living (abiotic) environment, interacting."},
+    {q:"What is the difference between biotic and abiotic factors? Give examples.", a:"Biotic (living) factors: food availability, predators, disease, competition. Abiotic (non-living) factors: temperature, light intensity, moisture, soil pH, wind, and CO₂/oxygen levels."},
+    {q:"What does 'interdependence' mean in a community?", a:"Species depend on each other for food, shelter, pollination and seed dispersal. If one species is removed it can affect the whole community. A stable community is one where these factors are balanced over time."},
+    {q:"What do organisms compete for? (plants vs animals)", a:"Plants compete for light, space, water and mineral ions. Animals compete for food, water, territory and mates."},
+    {q:"Name the three types of adaptation, with an example.", a:"Structural (body features, e.g. thick fur), behavioural (actions, e.g. migration), and functional (internal processes, e.g. producing little urine in the desert)."},
+    {q:"What are extremophiles?", a:"Organisms (often bacteria) that live in extreme conditions such as high temperature, high pressure or high salt concentration — e.g. bacteria in deep-sea vents."},
+    {q:"How is a quadrat used to estimate a population?", a:"Place quadrats randomly, count the organisms inside, repeat many times, find the mean per quadrat, then multiply by the total area to estimate the population. A transect (line) is used to study how distribution changes across an area."},
+    {q:"Describe the carbon cycle simply.", a:"CO₂ is removed from the air by photosynthesis. Carbon then passes along food chains. It is returned to the air by respiration (of plants, animals and decomposers) and by combustion (burning fuels)."},
+    {q:"What is the role of decomposers (microorganisms) in the carbon cycle?", a:"They break down dead organisms and waste, releasing carbon dioxide back into the air (through respiration) and returning mineral nutrients to the soil."},
+    {q:"Which conditions speed up the rate of decay?", a:"Warmth, moisture and plenty of oxygen (for aerobic microorganisms). Gardeners use this in compost heaps; biogas can be produced by decay without oxygen (anaerobic)."},
+    {q:"What is biodiversity and why is it important?", a:"The variety of all the different species of organisms in an ecosystem (or on Earth). High biodiversity makes ecosystems more stable and less dependent on any one species. Human activity is reducing it."},
+    {q:"How does a growing human population affect the environment?", a:"More resources are used and more waste is produced, causing pollution of water (sewage, fertiliser), air (smoke, gases) and land (landfill, toxic chemicals), and leaving less land for other organisms."},
+    {q:"What causes global warming and what are its effects?", a:"Increasing levels of greenhouse gases (carbon dioxide and methane) trap heat in the atmosphere. Effects include rising sea levels, changing weather patterns, and the loss of habitats and species."},
+    {q:"Why is deforestation a problem?", a:"Cutting down forests (for timber, farming and biofuels) reduces biodiversity, and means less carbon dioxide is removed by photosynthesis — while burning and decay release more CO₂."},
+    {q:"Give three ways humans try to maintain biodiversity.", a:"Breeding programmes for endangered species, protecting and regenerating habitats, reducing deforestation, reducing greenhouse gas emissions, and recycling resources rather than dumping waste."}
+  ]
+}
+];
+
+/* ============================================================
+   APP LOGIC
+   ============================================================ */
+const $=(s,el=document)=>el.querySelector(s);
+const $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const totalQ = TOPICS.reduce((n,t)=>n+t.questions.length,0);
+
+// Safe storage (works when file is opened locally; never crashes)
+const store={
+  get(k){try{return JSON.parse(localStorage.getItem(k));}catch(e){return null;}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+};
+
+/* ----- Home grid ----- */
+function buildHome(){
+  const g=$("#homeGrid"); g.innerHTML="";
+  TOPICS.forEach(t=>{
+    const best=store.get("best_"+t.id);
+    const b=document.createElement("button");
+    b.className="topic-card";
+    b.innerHTML=`<span class="num">Topic ${t.id}</span>
+      <h3>${t.title}</h3>
+      <div class="meta">${t.blurb}<br>${t.questions.length} questions${best!=null?` &middot; best ${best}%`:""}</div>`;
+    b.onclick=()=>{ setMode("read"); renderRead(t.id); };
+    g.appendChild(b);
+  });
+}
+
+/* ----- Mode switching ----- */
+function setMode(mode){
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected", t.dataset.mode===mode));
+  $("#view-home").classList.toggle("hidden", mode!=="home");
+  $("#view-read").classList.toggle("hidden", mode!=="read");
+  $("#view-quiz").classList.toggle("hidden", mode!=="quiz");
+  const hints={
+    home:"Pick a way to revise above, then choose a topic below.",
+    read:"Read each question, try to answer it in your head, then tap to reveal the answer.",
+    quiz:"Test yourself topic by topic — or all topics mixed together."
+  };
+  $("#modeHint").textContent=hints[mode];
+  if(mode==="read") buildReadPicker();
+  if(mode==="quiz") buildQuizSetup();
+  if(mode==="home") buildHome();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ----- READ MODE ----- */
+let currentReadTopic=null;
+function buildReadPicker(){
+  const p=$("#readTopicPicker");
+  p.innerHTML=`<h2 class="section">Read the questions &amp; answers</h2>
+    <div class="tools"><label for="readSelect"><strong>Choose topic:</strong></label>
+    <select id="readSelect"></select></div>`;
+  const sel=$("#readSelect");
+  TOPICS.forEach(t=>{const o=document.createElement("option");o.value=t.id;o.textContent=`Topic ${t.id}: ${t.title}`;sel.appendChild(o);});
+  if(currentReadTopic) sel.value=currentReadTopic;
+  sel.onchange=()=>renderRead(+sel.value);
+  renderRead(currentReadTopic||TOPICS[0].id);
+}
+function renderRead(id){
+  currentReadTopic=id;
+  const sel=$("#readSelect"); if(sel) sel.value=id;
+  const t=TOPICS.find(x=>x.id===id);
+  const c=$("#readContent");
+  c.innerHTML=`<p class="hint" style="margin-top:16px"><strong>${t.questions.length} questions</strong> &middot; ${t.title}</p>`+
+    t.questions.map((qa,i)=>`
+    <details class="qitem">
+      <summary><span class="qn">Q${i+1}.</span><span>${qa.q}</span><span class="arrow">▼</span></summary>
+      <div class="ans"><p><strong>Answer:</strong> ${qa.a}</p></div>
+    </details>`).join("");
+}
+
+/* ----- QUIZ MODE ----- */
+let quizList=[], quizPos=0, right=0, wrong=0, wrongOnes=[], quizTitle="", quizTid=null;
+function buildQuizSetup(){
+  $("#quizPlay").classList.add("hidden");
+  $("#quizResult").classList.add("hidden");
+  $("#quizSetup").classList.remove("hidden");
+  const sel=$("#quizTopic"); sel.innerHTML="";
+  const all=document.createElement("option"); all.value="all"; all.textContent=`All topics (${totalQ} questions, mixed)`; sel.appendChild(all);
+  TOPICS.forEach(t=>{const o=document.createElement("option");o.value=t.id;o.textContent=`Topic ${t.id}: ${t.title} (${t.questions.length})`;sel.appendChild(o);});
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function startQuiz(topicVal){
+  if(topicVal==="all"){
+    quizList=shuffle(TOPICS.flatMap(t=>t.questions.map(q=>({...q,topic:t.title,tid:t.id}))));
+    quizTitle="All topics"; quizTid=null;
+  }else{
+    const t=TOPICS.find(x=>x.id===+topicVal);
+    quizList=shuffle(t.questions.map(q=>({...q,topic:t.title,tid:t.id})));
+    quizTitle=`Topic ${t.id}: ${t.title}`; quizTid=t.id;
+  }
+  quizPos=0;right=0;wrong=0;wrongOnes=[];
+  $("#quizSetup").classList.add("hidden");
+  $("#quizResult").classList.add("hidden");
+  $("#quizPlay").classList.remove("hidden");
+  showQuestion();
+}
+function showQuestion(){
+  const qa=quizList[quizPos];
+  $("#qTopicLabel").textContent=qa.topic;
+  $("#qText").textContent=qa.q;
+  $("#aText").textContent=qa.a;
+  $("#answerBox").classList.remove("show");
+  $("#markRow").classList.remove("show");
+  $("#revealBtn").classList.remove("hidden");
+  $("#qCounter").textContent=`Question ${quizPos+1} of ${quizList.length}`;
+  $("#scoreG").textContent=`✓ ${right}`;
+  $("#scoreB").textContent=`✗ ${wrong}`;
+  $("#progBar").style.width=`${(quizPos/quizList.length)*100}%`;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function reveal(){
+  $("#answerBox").classList.add("show");
+  $("#markRow").classList.add("show");
+  $("#revealBtn").classList.add("hidden");
+}
+function mark(correct){
+  if(correct) right++; else {wrong++; wrongOnes.push(quizList[quizPos]);}
+  quizPos++;
+  if(quizPos<quizList.length) showQuestion(); else finishQuiz();
+}
+function finishQuiz(){
+  $("#quizPlay").classList.add("hidden");
+  const pct=Math.round((right/quizList.length)*100);
+  let msg="Keep going — every attempt helps it stick.";
+  if(pct>=80) msg="Excellent work! You really know this. 🌟";
+  else if(pct>=60) msg="Good progress — a solid pass. Review the ones you missed.";
+  else if(pct>=40) msg="You're getting there. Re-read the topic, then try again.";
+  if(quizTid!=null){
+    const prev=store.get("best_"+quizTid);
+    if(prev==null||pct>prev) store.set("best_"+quizTid,pct);
+  }
+  const r=$("#quizResult");
+  r.classList.remove("hidden");
+  r.innerHTML=`<div class="result">
+      <div class="qtopic">${quizTitle}</div>
+      <div class="big">${pct}%</div>
+      <div>You got <strong style="color:var(--good)">${right}</strong> right and
+           <strong style="color:var(--bad)">${wrong}</strong> to review.</div>
+      <div class="msg">${msg}</div>
+      <div class="row" style="justify-content:center">
+        <button class="btn btn-primary" id="retry">↻ Try again</button>
+        <button class="btn btn-ghost" id="newQuiz">Choose another topic</button>
+      </div>
+    </div>
+    ${wrongOnes.length?`<h3 class="review-h">📌 Questions to review (${wrongOnes.length})</h3>`+
+      wrongOnes.map((qa,i)=>`<details class="qitem"><summary><span class="qn">Q${i+1}.</span><span>${qa.q}</span><span class="arrow">▼</span></summary><div class="ans"><p><strong>Answer:</strong> ${qa.a}</p></div></details>`).join("")
+      :`<p class="hint" style="text-align:center;margin-top:18px">Perfect — nothing to review! 🎉</p>`}`;
+  $("#retry").onclick=()=>startQuiz(quizTid==null?"all":quizTid);
+  $("#newQuiz").onclick=()=>buildQuizSetup();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ----- Wire up ----- */
+$$(".tab").forEach(t=>{
+  t.addEventListener("click",()=>setMode(t.dataset.mode));
+  t.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setMode(t.dataset.mode);}});
+});
+$$("[data-go]").forEach(b=>b.addEventListener("click",()=>setMode(b.dataset.go)));
+$("#startAllQuiz").addEventListener("click",()=>{setMode("quiz");startQuiz("all");});
+$("#beginQuiz").addEventListener("click",()=>startQuiz($("#quizTopic").value));
+$("#revealBtn").addEventListener("click",reveal);
+$("#gotRight").addEventListener("click",()=>mark(true));
+$("#gotWrong").addEventListener("click",()=>mark(false));
+
+// keyboard shortcuts in quiz: space=reveal, r=right, w=wrong
+document.addEventListener("keydown",e=>{
+  if($("#view-quiz").classList.contains("hidden")||$("#quizPlay").classList.contains("hidden"))return;
+  if(e.key===" "&&!$("#revealBtn").classList.contains("hidden")){e.preventDefault();reveal();}
+  else if($("#markRow").classList.contains("show")){
+    if(e.key.toLowerCase()==="r")mark(true);
+    if(e.key.toLowerCase()==="w")mark(false);
+  }
+});
+
+buildHome();
+</script>
+</body>
+</html>
